@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
+from django.contrib.auth import login,logout,authenticate
 from .models import Profile,Tweet
 from .forms import TweetForm
 
@@ -48,3 +49,22 @@ def profile(request,pk):
     else:
         messages.warning(request,'You must be logged in to view this...')
         return redirect('home')
+    
+def login_user(request):
+    if request.method=='POST':
+        username=request.POST['username']
+        password=request.POST['password']
+        user=authenticate(request=request,username=username,password=password)
+        if user:
+            login(request,user)
+            messages.success(request,'You are logged in')
+            return redirect('home')
+        else:
+            messages.error(request,'Either username or password is invalid')
+            return redirect('login')
+    return render(request,'login.html')
+
+def logout_user(request):
+    logout(request)
+    messages.info(request,"You are logged out!")
+    return redirect('home')
