@@ -35,3 +35,7 @@ class Tweet(models.Model):
             f"{self.created_at:%D-%M-%Y %H-%M}"
             f"{self.body}..."
             )
+    
+class RegisterForm(models.Model):
+    name = models.CharField(max_length=100)
+    password = models.CharField(max_length=10)

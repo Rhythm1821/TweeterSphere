@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.models import User
 from .models import Profile,Tweet
-from .forms import TweetForm
+from .forms import TweetForm,RegisterForm
 
 # Create your views here.
 def home(request):
@@ -68,3 +69,31 @@ def logout_user(request):
     logout(request)
     messages.info(request,"You are logged out!")
     return redirect('home')
+
+def register(request):
+    form = RegisterForm()
+    if request.method=='POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user=authenticate(request,username=username,password=password)
+            login(request,user)
+            messages.success(request,'You are registered')
+            return redirect('home')
+        
+    return render(request,'register.html',{'form':form})
+
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        form = RegisterForm(request.POST or None,instance=current_user)
+        return render(request,'update_user.html',{'form':form})
+    else:
+        messages.error(request,"You must be logged in!")
+        return redirect('home')
+    if request.method=='POST':
+        pass
+
+    return render(request,'update_user.html')

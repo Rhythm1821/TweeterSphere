@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if not user.is_authenticated %}
+<div class="col-md-6 offset-md-3">
+    <br>
+    <h2>Register</h2>
+    <form method="POST">
+        <br>
+        {% csrf_token %}
+        <div class="mb-3">
+          <input class="form-control" name="username" placeholder="Enter username">
+        </div>
+        <div class="mb-3">
+            <input type="email" class="form-control" name="email" placeholder="Enter email">
+          </div>
+        <div class="mb-3">
+          <input type="password" class="form-control" name="password1" placeholder="Enter password">
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" name="password2" placeholder="Enter password">
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>Oops! There were some errors:</strong>
+                <ul>
+                    {% for field_errors in form.errors.values %}
+                        {% for error in field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <button type="submit" class="btn btn-secondary">Submit</button>
+      </form>
+</div>
+{% else %}
+<h1>You're already Registered</h1>
+{% endif %}
+{% endblock %}
