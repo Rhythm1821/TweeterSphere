@@ -20,6 +20,9 @@
             </div>
 
             <div class="col-4"> 
+                {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" alt="">
+                {% endif %}
                 <div class="card">
                     <div class="card-header">
                       Follows

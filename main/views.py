@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.models import User
 from .models import Profile,Tweet
-from .forms import TweetForm,RegisterForm
+from .forms import TweetForm,RegisterForm,ProfileImageForm,UserUpdateForm
 
 # Create your views here.
 def home(request):
@@ -88,12 +88,19 @@ def register(request):
 def update_user(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(id=request.user.id)
-        form = RegisterForm(request.POST or None,instance=current_user)
-        return render(request,'update_user.html',{'form':form})
+        profile_user = Profile.objects.get(user__id=request.user.id)
+        user_form = UserUpdateForm(request.POST or None,request.FILES or None,instance=current_user)
+        profile_form = ProfileImageForm(request.POST or None,request.FILES or None,instance=profile_user)
+        print("Not Valid")
+        # if user_form.is_valid() and \n
+        if profile_form.is_valid():
+            print("Valid")
+            # user_form.save() and \
+            profile_form.save()
+            login(request,current_user)
+            messages.success(request,"Your profile has been updated")
+            return redirect('home')
+        return render(request,'update_user.html',{'user_form':user_form,'profile_form':profile_form})
     else:
         messages.error(request,"You must be logged in!")
         return redirect('home')
-    if request.method=='POST':
-        pass
-
-    return render(request,'update_user.html')
