@@ -8,5 +8,6 @@ urlpatterns = [
     path('login/',views.login_user,name='login'),
     path('logout/',views.logout_user,name='logout'),
     path('register/',views.register,name='register'),
-    path('update-user/',views.update_user,name='update-user')
+    path('update-user/',views.update_user,name='update-user'),
+    path('tweet-like/<int:pk>',views.tweet_like,name='tweet-like'),
 ]

@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.models import User
@@ -92,11 +92,9 @@ def update_user(request):
         user_form = UserUpdateForm(request.POST or None,request.FILES or None,instance=current_user)
         profile_form = ProfileImageForm(request.POST or None,request.FILES or None,instance=profile_user)
         print("Not Valid")
-        # if user_form.is_valid() and \n
-        if profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             print("Valid")
-            # user_form.save() and \
-            profile_form.save()
+            user_form.save() and profile_form.save()
             login(request,current_user)
             messages.success(request,"Your profile has been updated")
             return redirect('home')
@@ -104,3 +102,15 @@ def update_user(request):
     else:
         messages.error(request,"You must be logged in!")
         return redirect('home')
+    
+
+def tweet_like(request,pk):
+    if request.user.is_authenticated:
+        tweet = get_object_or_404(Tweet,id=pk)
+        if tweet.likes.filter(id=request.user.id):
+            tweet.likes.remove(request.user.id)
+        else:
+            tweet.likes.add(request.user.id)
+        return redirect(request.META['HTTP_REFERER'])
+    else:
+        messages.error(request,"You must be logged in!!")
