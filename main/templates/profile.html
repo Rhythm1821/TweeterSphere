@@ -24,11 +24,15 @@
                         {{ tweet.body }} <br>
                         <small class="text-muted">
                             @{{ tweet.user.username }}
-                            {{ tweet.num_of_like }} Likes
+                            {{ tweet.num_of_likes }} Likes
                             {% if user in tweet.likes.all %}
-                            <a href="{% url 'tweet-like' tweet.id %}">Unlike</a>
+                            <a href="{% url 'tweet-like' tweet.id %}">
+                                <i class="fa-solid fa-heart" style="color:red"></i>
+                            </a>
                             {% else %}
-                            <a href="{% url 'tweet-like' tweet.id %}">Like</a>
+                            <a href="{% url 'tweet-like' tweet.id %}">
+                                <i class="fa fa-heart-o" style="color:red"></i>
+                            </a>
                             {% endif %}
                           </small>
                     </div> <br>
@@ -42,7 +46,28 @@
             <div class="col-4"> 
                 {% if profile.profile_image %}
                     <img src="{{ profile.profile_image.url }}" class="rounded-circle" width="200" height="200" alt="">
+                {% endif %} <br> 
+                {% if profile.homepage_link %}
+                    <a href="{{ profile.homepage_link }}" target="new"><i class="fa-solid fa-link" style="color: gray;"></i></a>
+                {% endif %} 
+
+                {% if profile.instagram_link %}
+                    <a href="{{ profile.instagram_link }}" target="new"><i class="fa-brands fa-instagram" style="color: gray;"></i></a>
+                {% endif %} 
+
+                {% if profile.facebook_link %}
+                    <a href="{{ profile.facebook_link }}" target="new"><i class="fa-brands fa-facebook-f" style="color: gray;"></i></a>
+                {% endif %} 
+
+                {% if profile.linkedin_link %}
+                    <a href="{{ profile.linkedin_link }}" target="new"><i class="fa-brands fa-linkedin-in" style="color: gray;"></i></a>
+                {% endif %} 
+
+                <br>  <br>
+                {% if profile.profile_bio %}
+                    <p align="justify">{{ profile.profile_bio }}</p>
                 {% endif %}
+                <br>  <br>
                 <div class="card">
                     <div class="card-header">
                       Follows

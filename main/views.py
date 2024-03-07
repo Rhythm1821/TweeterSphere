@@ -91,7 +91,6 @@ def update_user(request):
         profile_user = Profile.objects.get(user__id=request.user.id)
         user_form = UserUpdateForm(request.POST or None,request.FILES or None,instance=current_user)
         profile_form = ProfileImageForm(request.POST or None,request.FILES or None,instance=profile_user)
-        print("Not Valid")
         if user_form.is_valid() and profile_form.is_valid():
             print("Valid")
             user_form.save() and profile_form.save()
@@ -114,3 +113,12 @@ def tweet_like(request,pk):
         return redirect(request.META['HTTP_REFERER'])
     else:
         messages.error(request,"You must be logged in!!")
+        return redirect('home')
+
+def tweet_show(request,pk):
+    tweet = get_object_or_404(Tweet,id=pk)
+    if tweet:
+        return render(request,'show_tweet.html',{'tweet':tweet})
+    else:
+        messages.error(request,'Tweet does not exist!!')
+        return redirect('home')
