@@ -133,3 +133,51 @@ def unfollow(request,pk):
     else:
         messages.success(request,'You are not logged in!!')
         return redirect('home')
+    
+def follow(request,pk):
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user__id=pk)
+        request.user.profile.follows.add(profile)
+        request.user.profile.save()
+        messages.success(request,f'{profile.user.username} followed')
+        return redirect(request.META['HTTP_REFERER'])
+    else:
+        messages.error(request,"You must be logged in!!")
+        return redirect('home')
+    
+def followers(request,pk):
+    if request.user.is_authenticated:
+        if request.user.id==pk:
+            profiles = Profile.objects.get(user__id=pk)
+            return render(request,'followers.html',{'profiles':profiles})
+        else:
+            messages.error(request,"That's not your profile")
+            return redirect('home')
+    else:
+        messages.error(request,'You must be logged in!!')
+        return redirect('home')
+    
+def follows(request,pk):
+    if request.user.is_authenticated:
+        if request.user.id==pk:
+            profiles = Profile.objects.get(user__id=pk)
+            return render(request,'follows.html',{'profiles':profiles})
+        else:
+            messages.error(request,'')
+    else:
+        messages.error(request,'You are not logged in!!')
+        return redirect('home')
+    
+def delete_tweet(request,pk):
+    if request.user.is_authenticated:
+        tweet = get_object_or_404(Tweet,id=pk)
+        if request.user.username==tweet.user.username:
+            tweet.delete()
+            messages.info(request,'Tweet deleted...')
+            return redirect(request.META['HTTP_REFERER'])
+        else:
+            messages.error(request,'You do not have the permission to delete the tweet!!')
+            return redirect('home')
+    else:
+        messages.error(request,'You are not logged in!!')
+        return redirect(request.META['HTTP_REFERER'])

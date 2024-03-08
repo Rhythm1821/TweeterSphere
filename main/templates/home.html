@@ -39,6 +39,12 @@
                 </a>
                 {% endif %}
               </small>
+              &nbsp;&nbsp;
+                {% if request.user.username == tweet.user.username %}
+                <a href="{% url 'delete-tweet' tweet.id %}">
+                    <i class="fa fa-trash" style="color:gray"></i>
+                </a>
+                {% endif %}
             </div>
           </div>
         </div>
