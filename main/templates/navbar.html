@@ -30,6 +30,17 @@
 
         {% if user.is_authenticated %}
         <ul class="navbar-nav ml-auto">
+          <!-- Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Search
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'search' %}">Search tweet</a></li>
+              <li><a class="dropdown-item" href="{% url 'search-user' %}">Search user</a></li>
+            </ul>
+          </li>
+  
           <li class="nav-link navbar-brand"><a href="{% url 'profile' request.user.id %}">
             {% if user.profile.profile_image %}
             <img src="{{ user.profile.profile_image.url }}" width="30" height="30" class="rounded-circle" alt="">

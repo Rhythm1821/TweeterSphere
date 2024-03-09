@@ -21,7 +21,7 @@
               {% else %}
               <img src="{% static 'images/default_profile_pic.png' %}" class="rounded-circle" width="50" height="50"
                 alt="">
-              {% endif %}
+              {% endif %} 
             </div>
             <div class="col-11">
               {{ tweet.body }} <br>
@@ -43,6 +43,10 @@
                 {% if request.user.username == tweet.user.username %}
                 <a href="{% url 'delete-tweet' tweet.id %}">
                     <i class="fa fa-trash" style="color:gray"></i>
+                </a>
+                &nbsp;&nbsp;
+                <a href="{% url 'edit-tweet' tweet.id %}">
+                  <i class="fa fa-edit" style="color:gray"></i>
                 </a>
                 {% endif %}
             </div>

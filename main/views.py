@@ -92,7 +92,6 @@ def update_user(request):
         user_form = UserUpdateForm(request.POST or None,request.FILES or None,instance=current_user)
         profile_form = ProfileImageForm(request.POST or None,request.FILES or None,instance=profile_user)
         if user_form.is_valid() and profile_form.is_valid():
-            print("Valid")
             user_form.save() and profile_form.save()
             login(request,current_user)
             messages.success(request,"Your profile has been updated")
@@ -181,3 +180,42 @@ def delete_tweet(request,pk):
     else:
         messages.error(request,'You are not logged in!!')
         return redirect(request.META['HTTP_REFERER'])
+
+def edit_tweet(request,pk):
+    if request.user.is_authenticated:
+        tweet = get_object_or_404(Tweet,id=pk)
+        if request.user.username==tweet.user.username:
+            form=TweetForm(request.POST or None,instance=tweet)
+            if request.method=='POST':
+                if form.is_valid():
+                    tweet = form.save(commit=False)
+                    tweet.user = request.user
+                    tweet.save()
+                    messages.success(request,'Tweet updated successfully')
+                    return redirect('home')
+            else:
+                return render(request,'edit_tweet.html',{'tweet':tweet,'form':form})
+        else:
+            messages.error(request,'You are not authorized to edit this account')
+            return redirect('home')
+    else:
+        messages.error(request,'You are not logged in!!')
+        return redirect('home')
+    
+def search(request):
+    if request.method=='POST':
+        search = request.POST['search']
+        searched = Tweet.objects.filter(body__contains=search)
+        return render(request,'search.html',{'search':search,'searched':searched})
+    else:
+        return render(request,'search.html')
+
+def search_user(request):
+    if request.method=='POST':
+        search = request.POST['search']
+        searched = None
+        if search:
+            searched = User.objects.filter(username__contains=search)
+        return render(request,'search_user.html',{'search':search,'searched':searched})
+    else:
+        return render(request,'search_user.html')

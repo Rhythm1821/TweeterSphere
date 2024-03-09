@@ -41,7 +41,11 @@
                         <a href="{% url 'delete-tweet' tweet.id %}">
                             <i class="fa fa-trash" style="color:gray"></i>
                         </a>
+                        <a href="{% url 'edit-tweet' tweet.id %}">
+                            <i class="fa fa-edit" style="color:gray"></i>
+                        </a>
                         {% endif %}
+
                         </div> <br>
                     </div>
                 </div>
@@ -82,7 +86,7 @@
                     <div class="card-body">
                       <p class="card-text">
 
-                          {% for following in profile.follows.all %}
+                          {% for following in user.profile.follows.all %}
                           &nbsp;&nbsp;
                           <a href="{% url 'profile' following.user.id %}">@{{ following }} </a> <a href="{% url 'unfollow' following.user.id %}">
                             <i class="fa fa-user-minus small" style="color: gray"></i>
@@ -101,7 +105,8 @@
                           {% for following in profile.followed_by.all|slice:3 %}
                           <a href="{% url 'profile' following.user.id %}">@{{ following }} </a>
                           &nbsp;&nbsp;
-                          {% if following in profile.follows.all %}
+                          {% if following in user.profile.follows.all %}
+                          <!-- {{ profile.follows.all }} -->
                           <a href="{% url 'unfollow' following.user.id %}">
                             <i class="fa fa-user-minus small" style="color: gray;"></i>
                           </a>
