@@ -1,6 +1,7 @@
 # TweeterSphere
 
 TweeterSphere is a social media platform inspired by Twitter. Users have the ability to sign up, create, like, and update posts, follow other profiles, and gain followers. Additionally, users can update their profile information and add a profile image.
+The project was made using a popular python web framework known as Django.
 
 ## Getting Started
 
