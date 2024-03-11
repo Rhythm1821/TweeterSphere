@@ -10,6 +10,7 @@
       <!-- </div> -->
       <h1>Tweets</h1>
       <br>
+      {% if tweets %}
       {% for tweet in tweets %}
       <div class="alert alert-dark" role="alert">
         <div class="container">
@@ -65,4 +66,7 @@
       </form>
       {% endif %}
     </div>
+    {% else %}
+    <h2>No tweets yet. Sign up and be the first one to share your thoughts :)</h2>
+    {% endif %}
     {% endblock %}
