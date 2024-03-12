@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./tweetersphere:/app/tweetersphere/
+      - ./django-cmd.sh:/app/django-cmd.sh
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command:  sh -c "/app/django-cmd.sh"
+
+  
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DB=tweetersphere
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password 
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "3307:3306"
+    volumes:
+    - mysql_data:/var/lib/mysql/
+
+volumes:
