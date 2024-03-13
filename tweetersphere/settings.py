@@ -92,15 +92,16 @@ DATABASES = {
         'NAME': DB_NAME,
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
-        # 'HOST':'host.docker.internal',
+        # 'HOST':'host.docker.internal', for docker db connection
+        'HOST' : '127.0.0.1',
         'PORT':DB_PORT,
     }
 }
-DOCKER_COMPOSE = int(os.environ.get('DOCKER_COMPOSE'))
-if DOCKER_COMPOSE:
-    DATABASES['default']['HOST'] = 'host.docker.internal'
-else:
-    DATABASES['default']['HOST'] = '127.0.0.1'
+# DOCKER_COMPOSE = int(os.environ.get('DOCKER_COMPOSE'))
+# if DOCKER_COMPOSE:
+#     DATABASES['default']['HOST'] = 'host.docker.internal'
+# else:
+#     DATABASES['default']['HOST'] = '127.0.0.1'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
