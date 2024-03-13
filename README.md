@@ -67,6 +67,8 @@ You can now access TweeterSphere at http://127.0.0.1:8000/ in your web browser.
 
 ### Installation (with docker and MySQL as the database)
 
+Add your credentials to .env file
+
 1. Clone the repository:
 
 ```
@@ -103,13 +105,18 @@ EXIT;
 docker ps (if running do "docker kill {container_id}")
 ```
 
+6. Uncomment this line in .env
+
+```
+DOCKER_COMPOSE=1
+```
+
 
 ### Build the container
 
 7. Start building the container:
 
 ```
-export DOCKER_COMPOSE=1
 docker compose up --build
 ```
 
