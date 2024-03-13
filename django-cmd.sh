@@ -1,10 +1,5 @@
 #!/bin/bash
 
-cd /app/
-
-echo "#####migrating database#####"
-python3 manage.py makemigrations
-
 echo "#####migrate database#######"
 python3 manage.py migrate
 
