@@ -1,2 +1,5 @@
 django
 Pillow
+gunicorn
+mysqlclient
+python-dotenv
