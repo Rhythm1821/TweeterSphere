@@ -102,7 +102,7 @@ EXIT;
 5. Ensure no container is running:
 
 ```
-docker ps (if running do "docker kill {container_id}")
+docker ps #(if running do "docker kill {container_id}")
 ```
 
 6. Uncomment this line in .env
