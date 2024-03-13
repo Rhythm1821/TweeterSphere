@@ -63,3 +63,53 @@ python3 manage.py runserver
 ```
 
 You can now access TweeterSphere at http://127.0.0.1:8000/ in your web browser.
+
+
+### Installation (with docker and MySQL as the database)
+
+1. Clone the repository:
+
+```
+git clone https://github.com/Rhythm1821/TweeterSphere
+```
+
+
+2. Navigate to the project directory:
+
+```
+cd TweeterSphere
+```
+
+
+3. Login to MySQL server(inside the quotes your actual password should be there and same in you .env file):
+
+```
+ mysql -u root -p'password'
+```
+
+### Database Setup
+
+4. Create new database and exit:
+
+```
+CREATE DATABASE tweetersphere;
+EXIT;
+```
+
+
+5. Ensure no container is running:
+
+```
+docker ps (if running do "docker kill {container_id}")
+```
+
+
+### Build the container
+
+7. Start building the container:
+
+```
+docker compose up --build
+```
+
+You can now access TweeterSphere at http://127.0.0.1:8000/ in your web browser.
