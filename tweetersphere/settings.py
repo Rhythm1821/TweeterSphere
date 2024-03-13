@@ -113,10 +113,13 @@ if DB_IS_AVAIL:
     }
     
 DOCKER_COMPOSE = int(os.environ.get('DOCKER_COMPOSE'))
+
 if DOCKER_COMPOSE:
     DATABASES['default']['HOST'] = 'host.docker.internal'
+    print('Docker host')
 else:
     DATABASES['default']['HOST'] = '127.0.0.1'
+    print('Local host')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
