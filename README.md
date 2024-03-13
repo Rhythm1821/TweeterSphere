@@ -109,6 +109,7 @@ docker ps (if running do "docker kill {container_id}")
 7. Start building the container:
 
 ```
+export DOCKER_COMPOSE=1
 docker compose up --build
 ```
 
