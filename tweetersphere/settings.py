@@ -112,7 +112,7 @@ if DB_IS_AVAIL:
         }
     }
     
-DOCKER_COMPOSE = int(os.environ.get('DOCKER_COMPOSE'))
+DOCKER_COMPOSE = os.environ.get('DOCKER_COMPOSE')
 
 if DOCKER_COMPOSE:
     DATABASES['default']['HOST'] = 'host.docker.internal'
