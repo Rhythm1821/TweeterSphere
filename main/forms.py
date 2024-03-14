@@ -5,7 +5,7 @@ from .models import Tweet,Profile
 
 
 class ProfileImageForm(forms.ModelForm):
-    profile_image = forms.ImageField(label="Profile Picture")
+    profile_image = forms.ImageField(label="Profile Picture",required=False)
     profile_bio = forms.CharField(label='Profile Bio',required=False,widget=forms.Textarea(attrs={'class':'form-control','placeholder':'Profile Bio'}))
     homepage_link = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Website Link'}))
     instagram_link = forms.CharField(label='',required=False,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Instagram Link'}))
@@ -44,16 +44,3 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
-
-    # def clean_password2(self):
-    #     password1 = self.cleaned_data.get("password1")
-    #     password2 = self.cleaned_data.get("password2")
-    #     if password1 != password2:
-    #         raise forms.ValidationError("Passwords do not match")
-    #     return password2
-
-    # def clean_password1(self):
-    #     password1 = self.cleaned_data.get("password1")
-    #     if len(password1) < 8:
-    #         raise forms.ValidationError("Password must be at least 8 characters long")
-    #     return password1     
