@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Profile,Tweet
 from .forms import TweetForm,RegisterForm,ProfileImageForm,UserUpdateForm
@@ -23,16 +24,13 @@ def home(request):
         tweets = Tweet.objects.all().order_by('-created_at')
         return render(request,'home.html',{"tweets":tweets})
 
+@login_required
 def profile_list(request):
-    if request.user.is_authenticated:
-        profiles = Profile.objects.exclude(user=request.user)
-        return render(request,'profile_list.html',{'profiles':profiles})
-    else:
-        messages.success(request,'You must be logged in to view this...')
-        return redirect('home')
+    profiles = Profile.objects.exclude(user=request.user)
+    return render(request,'profile_list.html',{'profiles':profiles})
 
+@login_required
 def profile(request,pk):
-    if request.user.is_authenticated:
         profile = Profile.objects.get(user_id=pk)
         tweets = Tweet.objects.filter(user_id=pk).order_by('-created_at')
         if request.method=='POST':
@@ -47,9 +45,6 @@ def profile(request,pk):
                 current_user_profile.follows.add(profile)
             current_user_profile.save()
         return render(request,'profile.html',{'profile':profile,'tweets':tweets})
-    else:
-        messages.warning(request,'You must be logged in to view this...')
-        return redirect('home')
     
 def login_user(request):
     if request.method=='POST':
@@ -85,8 +80,8 @@ def register(request):
         
     return render(request,'register.html',{'form':form})
 
+@login_required
 def update_user(request):
-    if request.user.is_authenticated:
         current_user = User.objects.get(id=request.user.id)
         profile_user = Profile.objects.get(user__id=request.user.id)
         user_form = UserUpdateForm(request.POST or None,request.FILES or None,instance=current_user)
@@ -97,22 +92,16 @@ def update_user(request):
             messages.success(request,"Your profile has been updated")
             return redirect('home')
         return render(request,'update_user.html',{'user_form':user_form,'profile_form':profile_form})
-    else:
-        messages.error(request,"You must be logged in!")
-        return redirect('home')
     
-
+@login_required
 def tweet_like(request,pk):
-    if request.user.is_authenticated:
         tweet = get_object_or_404(Tweet,id=pk)
         if tweet.likes.filter(id=request.user.id):
             tweet.likes.remove(request.user.id)
         else:
             tweet.likes.add(request.user.id)
         return redirect(request.META['HTTP_REFERER'])
-    else:
-        messages.error(request,"You must be logged in!!")
-        return redirect('home')
+
 
 def tweet_show(request,pk):
     tweet = get_object_or_404(Tweet,id=pk)
@@ -121,54 +110,42 @@ def tweet_show(request,pk):
     else:
         messages.error(request,'Tweet does not exist!!')
         return redirect('home')
-    
+
+@login_required    
 def unfollow(request,pk):
-    if request.user.is_authenticated:
         profile = Profile.objects.get(user__id=pk)
         request.user.profile.follows.remove(profile)
         request.user.profile.save()
         messages.info(request,f'{profile.user.username} unfollowed')
         return redirect(request.META['HTTP_REFERER'])
-    else:
-        messages.success(request,'You are not logged in!!')
-        return redirect('home')
-    
+
+@login_required    
 def follow(request,pk):
-    if request.user.is_authenticated:
         profile = Profile.objects.get(user__id=pk)
         request.user.profile.follows.add(profile)
         request.user.profile.save()
         messages.success(request,f'{profile.user.username} followed')
         return redirect(request.META['HTTP_REFERER'])
-    else:
-        messages.error(request,"You must be logged in!!")
-        return redirect('home')
-    
+
+@login_required    
 def followers(request,pk):
-    if request.user.is_authenticated:
         if request.user.id==pk:
             profiles = Profile.objects.get(user__id=pk)
             return render(request,'followers.html',{'profiles':profiles})
         else:
             messages.error(request,"That's not your profile")
             return redirect('home')
-    else:
-        messages.error(request,'You must be logged in!!')
-        return redirect('home')
-    
+
+@login_required    
 def follows(request,pk):
-    if request.user.is_authenticated:
         if request.user.id==pk:
             profiles = Profile.objects.get(user__id=pk)
             return render(request,'follows.html',{'profiles':profiles})
         else:
             messages.error(request,'')
-    else:
-        messages.error(request,'You are not logged in!!')
-        return redirect('home')
-    
+
+@login_required    
 def delete_tweet(request,pk):
-    if request.user.is_authenticated:
         tweet = get_object_or_404(Tweet,id=pk)
         if request.user.username==tweet.user.username:
             tweet.delete()
@@ -177,12 +154,9 @@ def delete_tweet(request,pk):
         else:
             messages.error(request,'You do not have the permission to delete the tweet!!')
             return redirect('home')
-    else:
-        messages.error(request,'You are not logged in!!')
-        return redirect(request.META['HTTP_REFERER'])
 
+@login_required
 def edit_tweet(request,pk):
-    if request.user.is_authenticated:
         tweet = get_object_or_404(Tweet,id=pk)
         if request.user.username==tweet.user.username:
             form=TweetForm(request.POST or None,instance=tweet)
@@ -198,9 +172,7 @@ def edit_tweet(request,pk):
         else:
             messages.error(request,'You are not authorized to edit this account')
             return redirect('home')
-    else:
-        messages.error(request,'You are not logged in!!')
-        return redirect('home')
+
     
 def search(request):
     if request.method=='POST':
