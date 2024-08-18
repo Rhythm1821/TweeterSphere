@@ -3,3 +3,4 @@ Pillow
 gunicorn
 mysqlclient
 python-dotenv
+dj-database-url
