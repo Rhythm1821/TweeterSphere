@@ -4,3 +4,6 @@ gunicorn
 mysqlclient
 python-dotenv
 dj-database-url
+whitenoise[brotli]
+gunicorn 
+uvicorn
