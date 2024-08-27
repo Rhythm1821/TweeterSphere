@@ -3,6 +3,15 @@
 TweeterSphere is a social media platform inspired by Twitter. Users have the ability to sign up, create, like, and update posts, follow other profiles, and gain followers. Additionally, users can update their profile information and add a profile image.
 The project was made using a popular python web framework known as Django.
 
+
+## Technologies Used
+
+- **Django**: Backend web framework for building the application's structure and handling user authentication.
+- **HTML/Bootstrap**: Frontend technologies for building the user interface and interactivity.
+- **SQLite** (For local development): Database management system for storing user data and chat information.
+- **Supabase** (For deployment): Cloud-based database management system for storing user data and chat information.
+- **Docker** (For deployment): Containerization and deployment tool for running the application in production.
+
 ## Getting Started
 
 To get started with TweeterSphere, follow the instructions below:
