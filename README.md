@@ -1,6 +1,6 @@
 # TweeterSphere
 
-## Project is Live -  [here]((https://tweeter-sphere.vercel.app/))
+## Project is Live -  [here](https://tweeter-sphere.vercel.app/)
 
 ## Description
 
