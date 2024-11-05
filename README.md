@@ -1,6 +1,6 @@
 # TweeterSphere
 
-## Project is Live -  [here](https://gatherly-v4r2.onrender.com)
+## Project is Live -  [here]((https://tweeter-sphere.vercel.app/))
 
 ## Description
 
